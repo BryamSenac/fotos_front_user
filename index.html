@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload de Imagem</title>
+</head>
+<body>
+    <h1>Upload de Imagem</h1>
+    <form id="uploadForm">
+        <input type="file" id="imageInput" accept="image/*">
+        <button type="button" onclick="uploadImage()">Enviar Imagem</button>
+    </form>
+
+    <script>
+        function uploadImage() {
+            const formData = new FormData();
+            const imageInput = document.getElementById('imageInput');
+            if (imageInput.files.length > 0) {
+                const file = imageInput.files[0];
+                formData.append('image', file);
+
+                fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Sucesso:', data);
+                })
+                .catch((error) => {
+                    console.error('Erro:', error);
+                });
+            } else {
+                alert("Por favor, selecione uma imagem para enviar.");
+            }
+        }
+    </script>
+</body>
+</html>
