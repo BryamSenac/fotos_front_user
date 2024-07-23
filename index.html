@@ -1,13 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <title>Upload de Imagem</title>
+    <link href="http://www.pr.senac.br/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        header {
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #logo-senac {
+            width: 35vw;
+        }
+        #imageInput {
+            width: 80vw;
+            height: 80vw;
+            background-color: rgba(200, 200, 200, 0.1);
+            border-radius: 50%;
+            overflow: hidden;
+            position: absolute;
+            top: 15vh;
+            left: 10vw;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Upload de Imagem</h1>
+    <header>
+        <img id="logo-senac"
+            src="https://th.bing.com/th/id/R.626e6f667294475d22b50f3c2d4b3bf1?rik=WlNGG%2bTdg8H1tA&pid=ImgRaw&r=0">
+    </header>
     <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*">
+        <input id="imageInput" type="file" accept="image/*" onchange="previewImage(event)">
         <button type="button" onclick="uploadImage()">Enviar Imagem</button>
     </form>
 
@@ -23,22 +58,39 @@
                     method: 'POST',
                     body: formData,
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro na resposta da rede');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Sucesso:', data);
-                })
-                .catch((error) => {
-                    console.error('Erro:', error);
-                });
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro na resposta da rede');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Sucesso:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Erro:', error);
+                    });
             } else {
                 alert("Por favor, selecione uma imagem para enviar.");
             }
         }
+        function previewImage(event) {
+            const input = event.target;
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const dataURL = reader.result;
+                const imageInputDiv = document.getElementById('imageInput');
+                imageInputDiv.style.backgroundImage = `url(${dataURL})`;
+                imageInputDiv.style.backgroundSize = 'cover';
+                imageInputDiv.style.backgroundPosition = 'center';
+            }
+
+            if (input.files && input.files[0]) {
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 </body>
+
 </html>
