@@ -6,15 +6,16 @@ async function uploadImage() {
         if(nomesInput.value != ''){
             const file = imageInput.files[0];
             formData.append('image', file);
-            const names = nomesInput.value;
+            formData.append('names', nomesInput.value);            
     
             const response = await fetch('https://fotos-back.vercel.app/upload', {
                 method: 'POST',
-                body: {formData, names},
+                body: formData,
             });
-            if(response.status == 201){
+            if(response.status == 200){
                 alert("Cadastro realizado com sucesso!!!");
             }else{
+                console.log(response);
                 alert("Algo deu errado, tente novamente mais tarde!!!");
             }
         }else{
