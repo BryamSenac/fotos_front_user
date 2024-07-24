@@ -6,6 +6,7 @@
     <link href="http://www.pr.senac.br/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link rel="stylesheet" href="./styles.css">
     <script src="https://kit.fontawesome.com/398cd98506.js" crossorigin="anonymous"></script>
+    <script src="./index.js"></script>
 </head>
 <body>
     <header>
@@ -14,64 +15,28 @@
     </header>
     <form id="uploadForm">
         <input id="imageInput" type="file" accept="image/*" onchange="previewImage(event)">
-        <input id="namesInput" type="text" placeholder="Nome ou apelido... ">
-        <button id="btnSave" type="button" onclick="uploadImage()">Enviar</button>
+        <h3>NOME DOS PARTICIPANTES</h3>
+        <input id="namesInput" type="text" placeholder="Digite o, ou os nomes aqui...">
+        <button id="btnSave" type="button" onclick="uploadImage()">ENVIAR</button>
     </form>
     <i class="fa-solid fa-cloud-arrow-up icone"></i>
-    <div id="caixaDuvida">
+    <div id="caixaDuvida" onclick="showDuvida()">
         <i class="fa-solid fa-question duvida"></i>
     </div>
-    <div id="explicação">
-        <i class="fa-solid fa-x fechar"></i>
-        <p>
-            Aqui vai a explicação da dinamica, detalhada... blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla
-        </p>
+    <div id="explicacao">
+        <div>
+            <i class="fa-solid fa-x fechar" onclick="hideDuvidas()"></i>
+            <h1>GANHE UM SITE</h1>
+            <p style="margin: 5vw;">
+                O sorteio funciona da seguinte maneira, você deve enviar uma foto sua ou com seus amigos
+                (em formato de selfie de preferência), e o nome de todos os presentes na foto, e pronto
+                você já estará participando do nosso sorteio.
+                <br><br>
+                Ao final das apresentações os participantes serão sorteados e você poderá ganhar um
+                site totalmente seu e exclusivo.
+            </p>
+        </div>
     </div>
-    <script>
-        function uploadImage() {
-            const formData = new FormData();
-            const imageInput = document.getElementById('imageInput');
-            if (imageInput.files.length > 0) {
-                const file = imageInput.files[0];
-                formData.append('image', file);
-
-                fetch('https://fotos-back.vercel.app/upload', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erro na resposta da rede');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Sucesso:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Erro:', error);
-                    });
-            } else {
-                alert("Por favor, selecione uma imagem para enviar.");
-            }
-        }
-        function previewImage(event) {
-            const input = event.target;
-            const reader = new FileReader();
-
-            reader.onload = function () {
-                const dataURL = reader.result;
-                const imageInputDiv = document.getElementById('imageInput');
-                imageInputDiv.style.backgroundImage = `url(${dataURL})`;
-                imageInputDiv.style.backgroundSize = 'cover';
-                imageInputDiv.style.backgroundPosition = 'center';
-            }
-
-            if (input.files && input.files[0]) {
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
+    <h1 id="valendo">SORTEIO VALENDO UM SITE!!!!</h1>
 </body>
-
 </html>
