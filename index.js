@@ -1,4 +1,8 @@
 async function uploadImage() {
+    if (localStorage.getItem('uploadDone')) {
+        alert("Você já fez um envio. Apenas um envio é permitido.");
+        return;
+    }
     const formData = new FormData();
     const imageInput = document.getElementById('imageInput');
     const nomesInput = document.getElementById('namesInput');
@@ -14,6 +18,7 @@ async function uploadImage() {
             });
             if(response.status == 200){
                 alert("Cadastro realizado com sucesso!!!");
+                localStorage.setItem('uploadDone', true);
             }else{
                 console.log(response);
                 alert("Algo deu errado, tente novamente mais tarde!!!");
